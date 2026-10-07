@@ -171,6 +171,15 @@ CURATED = {
     "Pernis ptilorhynchus": ("मधुया / शहद बाज़", "Madhuya"),
     "Falco peregrinus": ("शाहीन", "Shaheen"),
     "Oenanthe fusca": ("शमा", "Shama"),
+    "Anastomus oscitans": ("घोंघिल", "Ghonghil"),
+    "Ocyceros birostris": ("धनेश / चलोत्रा", "Dhanesh"),
+    "Upupa epops": ("हुदहुद", "Hudhud"),
+    "Fulica atra": ("टिकरी / जल मुर्गी", "Tikri"),
+}
+
+# Wikidata labels that are wrong or just English in Devanagari — never show these (keep "pakka nahi" instead).
+REJECTED = {
+    "Actitis hypoleucos",  # "साधारण टिटहरी" — टिटहरी is a lapwing, not a sandpiper
 }
 
 _data: dict = {}
@@ -186,7 +195,7 @@ def hindi(scientific: str) -> Tuple[Optional[str], Optional[str], str]:
     if scientific in CURATED:
         dev, roman = CURATED[scientific]
         return dev, roman, "curated"
-    row = _data.get(scientific)
+    row = None if scientific in REJECTED else _data.get(scientific)
     if row and row.get("hi"):
         return row["hi"], row.get("roman"), row.get("source", "wikidata")
     return None, None, "none"

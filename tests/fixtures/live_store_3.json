@@ -1,0 +1,932 @@
+{
+ "card": {
+  "opening": "Raebareli ke 50 km me is season 60 pakshi record hue hain — 3 sardi ke mehmaan abhi aa rahe hain, aur 3 padosi hamesha yahin the.",
+  "birds": [
+   {
+    "en": "Indian Pond-Heron",
+    "hi": "अंधा बगुला (Andha bagula) · Indian Pond-Heron",
+    "status": "resident",
+    "tag": "padosi",
+    "size": "Kauwa se bada",
+    "look": [
+     "Buff-brown rang, thoda chota heron",
+     "Choti gardan aur peeli choonch"
+    ],
+    "where": "Paani ke kinare, ek jagah khade rehna",
+    "sound": "pakka nahi",
+    "hook": "Brown rang ka chota bagula jo statue ban jata hai",
+    "tip": "Paani ke paas dhyan se dekho, camouflage ho jata hai",
+    "status_line": "Resident hai, saal bhar yahi rehta hai",
+    "pending": false,
+    "season_records": 25,
+    "local_records": 10
+   },
+   {
+    "en": "Red-whiskered Bulbul",
+    "hi": "सिपाही बुलबुल (Sipahi bulbul) · Red-whiskered Bulbul",
+    "status": "resident",
+    "tag": "padosi",
+    "size": "Maina se thoda chhota",
+    "look": [
+     "Sir par lambi khadi kalgi (crest)",
+     "Gaalon par red patch aur white cheeks"
+    ],
+    "where": "Ped ya garden mein, aksar jhaadiyon mein dikhta hai",
+    "sound": "Cheerful whistling sound",
+    "hook": "Red cheeks aur khadi kalgi wala cute bird",
+    "tip": "Subah ped ki sabse upar wali tehni dekho, wahin baith kar gaata hai",
+    "status_line": "Resident hai, saal bhar yahan rehta hai",
+    "pending": false,
+    "season_records": 24,
+    "local_records": 10
+   },
+   {
+    "en": "Red-wattled Lapwing",
+    "hi": "टिटहरी (Titahri) · Red-wattled Lapwing",
+    "status": "resident",
+    "tag": "padosi",
+    "size": "Maina se bada",
+    "look": [
+     "Face par red skin (wattle), kaala sir aur chaati",
+     "White breast and brown back, lambi peeli taangein"
+    ],
+    "where": "Zameen ya khule maidan mein, paani ke paas",
+    "sound": "Loud did-he-do call",
+    "hook": "Shor machane wala zameeni bird",
+    "tip": "Aawaz pehle aayegi — 'did-he-do-it' sunte hi khule maidan ki taraf dekho",
+    "status_line": "Resident hai, saal bhar yahin rehta hai",
+    "pending": false,
+    "season_records": 24,
+    "local_records": 8
+   },
+   {
+    "en": "White Wagtail",
+    "hi": "धोबिन / खंजन (Dhobin / Khanjan) · White Wagtail",
+    "status": "winter_visitor",
+    "tag": "mehmaan",
+    "size": "Gauraiya ke size ka",
+    "look": [
+     "Safed chehra aur pet, grey peeth, gale par kaala patch",
+     "Lambi poonchh jo hamesha up-down hilti hai"
+    ],
+    "where": "Zameen ya paani ke paas, khule maidan mein",
+    "sound": "Tez chi-chi sound",
+    "hook": "Safed rang aur non-stop wagging tail",
+    "tip": "Paani ke kinare ya khule ground par dhoondo",
+    "status_line": "Winter visitor hai, thand mein aata hai",
+    "pending": false,
+    "season_records": 12,
+    "local_records": 4
+   },
+   {
+    "en": "Black Redstart",
+    "hi": "थिरथिरा (Thirthira) · Black Redstart",
+    "status": "winter_visitor",
+    "tag": "mehmaan",
+    "size": "Gauraiya jitna",
+    "look": [
+     "Poora dark grey body, bright orange-red tail",
+     "Tail hamesha thoda shiver ya quiver karta hai"
+    ],
+    "where": "Zameen ya purani deewaron par, aksar baith kar dekhta hai",
+    "sound": "Tez tic-tic sound",
+    "hook": "Kaala bird jiski laal pooch thartharati hai",
+    "tip": "Purani buildings aur patharon wali jagah check karo",
+    "status_line": "Yeh winter visitor hai, thand mein aata hai",
+    "pending": false,
+    "season_records": 9,
+    "local_records": 3
+   },
+   {
+    "en": "Common Sandpiper",
+    "hi": "साधारण टिटहरी · Common Sandpiper",
+    "status": "winter_visitor",
+    "tag": "mehmaan",
+    "size": "Maina se thoda chhota",
+    "look": [
+     "Lagatar poonchh upar-neeche bob karta hai",
+     "Brownish-grey peeth aur safed pet"
+    ],
+    "where": "Paani ke kinare, patharon par chalta hai",
+    "sound": "Teekhi tlee-tlee sound",
+    "hook": "Woh bird jo hamesha dance ki tarah bob karta hai",
+    "tip": "Paani ke edges par dhyan se dekho",
+    "status_line": "Winter visitor hai, thand mein aata hai",
+    "pending": false,
+    "season_records": 8,
+    "local_records": 5
+   }
+  ],
+  "where_to_go": "Sabse paas: Indira Gandhi Smarak Vanaspati Udyan (3.1 km), Chak Rar (14.9 km), Bheetha near Jagdishpur (23.6 km). Paani ka kinara + bade ped = sabse zyada chance.",
+  "go_line": "Phone jeb me, aankhein upar — 40 minute.",
+  "hard_one": "थिरथिरा (Thirthira) · Black Redstart — Purani buildings aur patharon wali jagah check karo",
+  "errors": {},
+  "done": 6,
+  "total": 6,
+  "place": "Raebareli, Uttar Pradesh",
+  "when": "Thu 08 Oct, 6:10 AM–6:50 AM",
+  "minutes": 40,
+  "lat": 26.2086769,
+  "lon": 81.2186298,
+  "created": "2026-10-07T15:01"
+ },
+ "ctx": {
+  "place": "Raebareli, Uttar Pradesh",
+  "lat": 26.2086769,
+  "lon": 81.2186298,
+  "minutes": 40,
+  "when": "Thu 08 Oct, 6:10 AM–6:50 AM",
+  "window_note": "sunrise ke baad pehla ghanta — chidiyan sabse active (mausam service abhi busy — baarish/AQI check nahi ho paya)",
+  "sunrise": "6:00 AM",
+  "sunset": "5:44 PM",
+  "rain_day_pct": 0,
+  "aqi_now": null,
+  "radius_km": 50,
+  "season_records": 1177,
+  "year_records": 5452,
+  "local_records": 399,
+  "months": "Sep–Nov",
+  "hotspots": [
+   {
+    "name": "Indira Gandhi Smarak Vanaspati Udyan",
+    "km": 3.1,
+    "records": 121
+   },
+   {
+    "name": "Bheetha near Jagdishpur",
+    "km": 23.6,
+    "records": 71
+   },
+   {
+    "name": "Chak Rar",
+    "km": 14.9,
+    "records": 25
+   },
+   {
+    "name": "Jagdishpur",
+    "km": 6.2,
+    "records": 23
+   }
+  ],
+  "hotspot_radius_km": 25,
+  "datasets": [
+   [
+    "EOD – eBird Observation Dataset",
+    5411
+   ],
+   [
+    "iNaturalist Research-grade Observations",
+    26
+   ],
+   [
+    "LACM Vertebrate Collection",
+    10
+   ]
+  ],
+  "n_species": 60,
+  "easy": [
+   {
+    "en": "Indian Pond-Heron",
+    "sci": "Ardeola grayii",
+    "hi": "अंधा बगुला (Andha bagula) · Indian Pond-Heron",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 25,
+    "year_records": 108,
+    "local_records": 10,
+    "quarters": {
+     "winter": 0.3,
+     "spring": 0.17,
+     "monsoon": 0.31,
+     "autumn": 0.23
+    }
+   },
+   {
+    "en": "Red-whiskered Bulbul",
+    "sci": "Pycnonotus jocosus",
+    "hi": "सिपाही बुलबुल (Sipahi bulbul) · Red-whiskered Bulbul",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 24,
+    "year_records": 113,
+    "local_records": 10,
+    "quarters": {
+     "winter": 0.26,
+     "spring": 0.29,
+     "monsoon": 0.24,
+     "autumn": 0.21
+    }
+   },
+   {
+    "en": "Red-wattled Lapwing",
+    "sci": "Vanellus indicus",
+    "hi": "टिटहरी (Titahri) · Red-wattled Lapwing",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 24,
+    "year_records": 116,
+    "local_records": 8,
+    "quarters": {
+     "winter": 0.26,
+     "spring": 0.24,
+     "monsoon": 0.29,
+     "autumn": 0.21
+    }
+   }
+  ],
+  "visitors": [
+   {
+    "en": "White Wagtail",
+    "sci": "Motacilla alba",
+    "hi": "धोबिन / खंजन (Dhobin / Khanjan) · White Wagtail",
+    "hi_src": "curated",
+    "status": "winter_visitor",
+    "season_records": 12,
+    "year_records": 29,
+    "local_records": 4,
+    "quarters": {
+     "winter": 0.34,
+     "spring": 0.24,
+     "monsoon": 0.0,
+     "autumn": 0.41
+    }
+   },
+   {
+    "en": "Black Redstart",
+    "sci": "Phoenicurus ochruros",
+    "hi": "थिरथिरा (Thirthira) · Black Redstart",
+    "hi_src": "curated",
+    "status": "winter_visitor",
+    "season_records": 9,
+    "year_records": 34,
+    "local_records": 3,
+    "quarters": {
+     "winter": 0.56,
+     "spring": 0.18,
+     "monsoon": 0.0,
+     "autumn": 0.26
+    }
+   },
+   {
+    "en": "Common Sandpiper",
+    "sci": "Actitis hypoleucos",
+    "hi": "साधारण टिटहरी · Common Sandpiper",
+    "hi_src": "wikidata",
+    "status": "winter_visitor",
+    "season_records": 8,
+    "year_records": 18,
+    "local_records": 5,
+    "quarters": {
+     "winter": 0.28,
+     "spring": 0.28,
+     "monsoon": 0.0,
+     "autumn": 0.44
+    }
+   }
+  ],
+  "all_species": [
+   {
+    "en": "Indian Pond-Heron",
+    "sci": "Ardeola grayii",
+    "hi": "अंधा बगुला (Andha bagula) · Indian Pond-Heron",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 25,
+    "year_records": 108,
+    "local_records": 10,
+    "quarters": {
+     "winter": 0.3,
+     "spring": 0.17,
+     "monsoon": 0.31,
+     "autumn": 0.23
+    }
+   },
+   {
+    "en": "Red-whiskered Bulbul",
+    "sci": "Pycnonotus jocosus",
+    "hi": "सिपाही बुलबुल (Sipahi bulbul) · Red-whiskered Bulbul",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 24,
+    "year_records": 113,
+    "local_records": 10,
+    "quarters": {
+     "winter": 0.26,
+     "spring": 0.29,
+     "monsoon": 0.24,
+     "autumn": 0.21
+    }
+   },
+   {
+    "en": "Red-wattled Lapwing",
+    "sci": "Vanellus indicus",
+    "hi": "टिटहरी (Titahri) · Red-wattled Lapwing",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 24,
+    "year_records": 116,
+    "local_records": 8,
+    "quarters": {
+     "winter": 0.26,
+     "spring": 0.24,
+     "monsoon": 0.29,
+     "autumn": 0.21
+    }
+   },
+   {
+    "en": "Spotted Dove",
+    "sci": "Spilopelia chinensis",
+    "hi": "चितकबरी फाख्ता (Chitkabri fakhta) · Spotted Dove",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 24,
+    "year_records": 88,
+    "local_records": 11,
+    "quarters": {
+     "winter": 0.24,
+     "spring": 0.15,
+     "monsoon": 0.34,
+     "autumn": 0.27
+    }
+   },
+   {
+    "en": "White-throated Kingfisher",
+    "sci": "Halcyon smyrnensis",
+    "hi": "किलकिला / कौड़िल्ला (Kilkila) · White-throated Kingfisher",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 23,
+    "year_records": 100,
+    "local_records": 8,
+    "quarters": {
+     "winter": 0.31,
+     "spring": 0.19,
+     "monsoon": 0.27,
+     "autumn": 0.23
+    }
+   },
+   {
+    "en": "Black Kite",
+    "sci": "Milvus migrans",
+    "hi": "चील (Cheel) · Black Kite",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 21,
+    "year_records": 75,
+    "local_records": 6,
+    "quarters": {
+     "winter": 0.35,
+     "spring": 0.2,
+     "monsoon": 0.17,
+     "autumn": 0.28
+    }
+   },
+   {
+    "en": "Brown Rock Chat",
+    "sci": "Oenanthe fusca",
+    "hi": "शमा (Shama) · Brown Rock Chat",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 21,
+    "year_records": 89,
+    "local_records": 10,
+    "quarters": {
+     "winter": 0.29,
+     "spring": 0.22,
+     "monsoon": 0.25,
+     "autumn": 0.24
+    }
+   },
+   {
+    "en": "Laughing Dove",
+    "sci": "Spilopelia senegalensis",
+    "hi": "छोटी फाख्ता / टुटरू (Chhoti fakhta / Tutru) · Laughing Dove",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 21,
+    "year_records": 91,
+    "local_records": 12,
+    "quarters": {
+     "winter": 0.38,
+     "spring": 0.22,
+     "monsoon": 0.16,
+     "autumn": 0.23
+    }
+   },
+   {
+    "en": "Jungle Babbler",
+    "sci": "Turdoides striata",
+    "hi": "सात भाई (Saat bhai) · Jungle Babbler",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 21,
+    "year_records": 98,
+    "local_records": 5,
+    "quarters": {
+     "winter": 0.28,
+     "spring": 0.21,
+     "monsoon": 0.3,
+     "autumn": 0.21
+    }
+   },
+   {
+    "en": "Rose-ringed Parakeet",
+    "sci": "Psittacula krameri",
+    "hi": "तोता (Tota) · Rose-ringed Parakeet",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 20,
+    "year_records": 60,
+    "local_records": 7,
+    "quarters": {
+     "winter": 0.23,
+     "spring": 0.28,
+     "monsoon": 0.15,
+     "autumn": 0.33
+    }
+   },
+   {
+    "en": "House Crow",
+    "sci": "Corvus splendens",
+    "hi": "कौआ (Kauwa) · House Crow",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 20,
+    "year_records": 85,
+    "local_records": 6,
+    "quarters": {
+     "winter": 0.36,
+     "spring": 0.21,
+     "monsoon": 0.19,
+     "autumn": 0.24
+    }
+   },
+   {
+    "en": "Common Myna",
+    "sci": "Acridotheres tristis",
+    "hi": "मैना (Maina) · Common Myna",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 20,
+    "year_records": 98,
+    "local_records": 7,
+    "quarters": {
+     "winter": 0.27,
+     "spring": 0.23,
+     "monsoon": 0.3,
+     "autumn": 0.2
+    }
+   },
+   {
+    "en": "Greater Coucal",
+    "sci": "Centropus sinensis",
+    "hi": "महोख / भारद्वाज (Mahokh) · Greater Coucal",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 20,
+    "year_records": 112,
+    "local_records": 8,
+    "quarters": {
+     "winter": 0.36,
+     "spring": 0.23,
+     "monsoon": 0.23,
+     "autumn": 0.18
+    }
+   },
+   {
+    "en": "Rock Pigeon",
+    "sci": "Columba livia",
+    "hi": "कबूतर (Kabootar) · Rock Pigeon",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 19,
+    "year_records": 87,
+    "local_records": 7,
+    "quarters": {
+     "winter": 0.31,
+     "spring": 0.22,
+     "monsoon": 0.25,
+     "autumn": 0.22
+    }
+   },
+   {
+    "en": "House Sparrow",
+    "sci": "Passer domesticus",
+    "hi": "गौरैया (Gauraiya) · House Sparrow",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 19,
+    "year_records": 82,
+    "local_records": 8,
+    "quarters": {
+     "winter": 0.24,
+     "spring": 0.18,
+     "monsoon": 0.34,
+     "autumn": 0.23
+    }
+   },
+   {
+    "en": "Indian Peafowl",
+    "sci": "Pavo cristatus",
+    "hi": "मोर (Mor) · Indian Peafowl",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 19,
+    "year_records": 58,
+    "local_records": 7,
+    "quarters": {
+     "winter": 0.12,
+     "spring": 0.28,
+     "monsoon": 0.28,
+     "autumn": 0.33
+    }
+   },
+   {
+    "en": "White-breasted Waterhen",
+    "sci": "Amaurornis phoenicurus",
+    "hi": "जल मुर्गी / दावक (Jal murgi) · White-breasted Waterhen",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 18,
+    "year_records": 77,
+    "local_records": 6,
+    "quarters": {
+     "winter": 0.25,
+     "spring": 0.18,
+     "monsoon": 0.34,
+     "autumn": 0.23
+    }
+   },
+   {
+    "en": "Sarus crane",
+    "sci": "Grus antigone",
+    "hi": "सारस (Saras) · Sarus crane",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 17,
+    "year_records": 68,
+    "local_records": 6,
+    "quarters": {
+     "winter": 0.37,
+     "spring": 0.16,
+     "monsoon": 0.22,
+     "autumn": 0.25
+    }
+   },
+   {
+    "en": "Large-billed Crow",
+    "sci": "Corvus macrorhynchos",
+    "hi": "जंगली कौआ (Jangli kauwa) · Large-billed Crow",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 17,
+    "year_records": 101,
+    "local_records": 4,
+    "quarters": {
+     "winter": 0.31,
+     "spring": 0.16,
+     "monsoon": 0.37,
+     "autumn": 0.17
+    }
+   },
+   {
+    "en": "Black Drongo",
+    "sci": "Dicrurus macrocercus",
+    "hi": "भुजंगा / कोतवाल (Bhujanga / Kotwal) · Black Drongo",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 17,
+    "year_records": 86,
+    "local_records": 6,
+    "quarters": {
+     "winter": 0.35,
+     "spring": 0.22,
+     "monsoon": 0.23,
+     "autumn": 0.2
+    }
+   },
+   {
+    "en": "Eurasian Collared-Dove",
+    "sci": "Streptopelia decaocto",
+    "hi": "पंडुक (Panduk) · Eurasian Collared-Dove",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 17,
+    "year_records": 77,
+    "local_records": 8,
+    "quarters": {
+     "winter": 0.19,
+     "spring": 0.23,
+     "monsoon": 0.35,
+     "autumn": 0.22
+    }
+   },
+   {
+    "en": "Common Tailorbird",
+    "sci": "Orthotomus sutorius",
+    "hi": "दर्जिन (Darzin) · Common Tailorbird",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 16,
+    "year_records": 63,
+    "local_records": 5,
+    "quarters": {
+     "winter": 0.17,
+     "spring": 0.27,
+     "monsoon": 0.3,
+     "autumn": 0.25
+    }
+   },
+   {
+    "en": "Red-vented Bulbul",
+    "sci": "Pycnonotus cafer",
+    "hi": "बुलबुल (Bulbul) · Red-vented Bulbul",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 15,
+    "year_records": 79,
+    "local_records": 3,
+    "quarters": {
+     "winter": 0.33,
+     "spring": 0.24,
+     "monsoon": 0.24,
+     "autumn": 0.19
+    }
+   },
+   {
+    "en": "Little Cormorant",
+    "sci": "Microcarbo niger",
+    "hi": "पनकौआ (Pankauwa) · Little Cormorant",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 15,
+    "year_records": 80,
+    "local_records": 5,
+    "quarters": {
+     "winter": 0.3,
+     "spring": 0.19,
+     "monsoon": 0.33,
+     "autumn": 0.19
+    }
+   },
+   {
+    "en": "Rufous Treepie",
+    "sci": "Dendrocitta vagabunda",
+    "hi": "महालत / टका चोर (Mahalat) · Rufous Treepie",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 13,
+    "year_records": 57,
+    "local_records": 5,
+    "quarters": {
+     "winter": 0.28,
+     "spring": 0.3,
+     "monsoon": 0.19,
+     "autumn": 0.23
+    }
+   },
+   {
+    "en": "Purple Sunbird",
+    "sci": "Cinnyris asiaticus",
+    "hi": "शकरखोरा (Shakarkhora) · Purple Sunbird",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 13,
+    "year_records": 92,
+    "local_records": 2,
+    "quarters": {
+     "winter": 0.33,
+     "spring": 0.32,
+     "monsoon": 0.22,
+     "autumn": 0.14
+    }
+   },
+   {
+    "en": "Indian Gray Hornbill",
+    "sci": "Ocyceros birostris",
+    "hi": "धनेश / चलोत्रा (Dhanesh) · Indian Gray Hornbill",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 12,
+    "year_records": 51,
+    "local_records": 4,
+    "quarters": {
+     "winter": 0.22,
+     "spring": 0.31,
+     "monsoon": 0.24,
+     "autumn": 0.24
+    }
+   },
+   {
+    "en": "Egyptian Vulture",
+    "sci": "Neophron percnopterus",
+    "hi": "सफेद गिद्ध (Safed giddh) · Egyptian Vulture",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 12,
+    "year_records": 34,
+    "local_records": 3,
+    "quarters": {
+     "winter": 0.26,
+     "spring": 0.18,
+     "monsoon": 0.21,
+     "autumn": 0.35
+    }
+   },
+   {
+    "en": "Indian Silverbill",
+    "sci": "Euodice malabarica",
+    "hi": "सफेद गले वाली मुनिया (Munia) · Indian Silverbill",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 12,
+    "year_records": 64,
+    "local_records": 3,
+    "quarters": {
+     "winter": 0.27,
+     "spring": 0.2,
+     "monsoon": 0.34,
+     "autumn": 0.19
+    }
+   },
+   {
+    "en": "White Wagtail",
+    "sci": "Motacilla alba",
+    "hi": "धोबिन / खंजन (Dhobin / Khanjan) · White Wagtail",
+    "hi_src": "curated",
+    "status": "winter_visitor",
+    "season_records": 12,
+    "year_records": 29,
+    "local_records": 4,
+    "quarters": {
+     "winter": 0.34,
+     "spring": 0.24,
+     "monsoon": 0.0,
+     "autumn": 0.41
+    }
+   },
+   {
+    "en": "Little Egret/Western Reef-Heron",
+    "sci": "Egretta garzetta",
+    "hi": "छोटा बगुला / किलचिया (Chhota bagula) · Little Egret/Western Reef-Heron",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 11,
+    "year_records": 54,
+    "local_records": 5,
+    "quarters": {
+     "winter": 0.46,
+     "spring": 0.19,
+     "monsoon": 0.15,
+     "autumn": 0.2
+    }
+   },
+   {
+    "en": "Oriental Magpie-Robin",
+    "sci": "Copsychus saularis",
+    "hi": "दहियर / दैयाल (Dahiyar) · Oriental Magpie-Robin",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 11,
+    "year_records": 76,
+    "local_records": 4,
+    "quarters": {
+     "winter": 0.3,
+     "spring": 0.24,
+     "monsoon": 0.32,
+     "autumn": 0.14
+    }
+   },
+   {
+    "en": "Ashy Prinia",
+    "sci": "Prinia socialis",
+    "hi": "फुटकी (Phutki) · Ashy Prinia",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 11,
+    "year_records": 73,
+    "local_records": 3,
+    "quarters": {
+     "winter": 0.19,
+     "spring": 0.26,
+     "monsoon": 0.4,
+     "autumn": 0.15
+    }
+   },
+   {
+    "en": "Scaly-breasted Munia",
+    "sci": "Lonchura punctulata",
+    "hi": "तिलिया मुनिया (Tiliya munia) · Scaly-breasted Munia",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 11,
+    "year_records": 21,
+    "local_records": 5,
+    "quarters": {
+     "winter": 0.1,
+     "spring": 0.14,
+     "monsoon": 0.24,
+     "autumn": 0.52
+    }
+   },
+   {
+    "en": "Eurasian Hoopoe",
+    "sci": "Upupa epops",
+    "hi": "हुदहुद (Hudhud) · Eurasian Hoopoe",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 11,
+    "year_records": 47,
+    "local_records": 5,
+    "quarters": {
+     "winter": 0.23,
+     "spring": 0.23,
+     "monsoon": 0.3,
+     "autumn": 0.23
+    }
+   },
+   {
+    "en": "Indian Roller",
+    "sci": "Coracias benghalensis",
+    "hi": "नीलकंठ (Neelkanth) · Indian Roller",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 10,
+    "year_records": 44,
+    "local_records": 3,
+    "quarters": {
+     "winter": 0.23,
+     "spring": 0.23,
+     "monsoon": 0.32,
+     "autumn": 0.23
+    }
+   },
+   {
+    "en": "Purple Heron",
+    "sci": "Ardea purpurea",
+    "hi": "लाल अंजन / नारी (Lal anjan) · Purple Heron",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 10,
+    "year_records": 47,
+    "local_records": 4,
+    "quarters": {
+     "winter": 0.4,
+     "spring": 0.13,
+     "monsoon": 0.26,
+     "autumn": 0.21
+    }
+   },
+   {
+    "en": "Bank Myna",
+    "sci": "Acridotheres ginginianus",
+    "hi": "गंगा मैना (Ganga maina) · Bank Myna",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 10,
+    "year_records": 45,
+    "local_records": 5,
+    "quarters": {
+     "winter": 0.42,
+     "spring": 0.11,
+     "monsoon": 0.24,
+     "autumn": 0.22
+    }
+   },
+   {
+    "en": "Asian Openbill",
+    "sci": "Anastomus oscitans",
+    "hi": "घोंघिल (Ghonghil) · Asian Openbill",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 10,
+    "year_records": 57,
+    "local_records": 4,
+    "quarters": {
+     "winter": 0.35,
+     "spring": 0.19,
+     "monsoon": 0.28,
+     "autumn": 0.18
+    }
+   },
+   {
+    "en": "Black-headed Ibis",
+    "sci": "Threskiornis melanocephalus",
+    "hi": "मुंडा / सफेद बाज़ा (Munda) · Black-headed Ibis",
+    "hi_src": "curated",
+    "status": "resident",
+    "season_records": 9,
+    "year_records": 42,
+    "local_records": 2,
+    "quarters": {
+     "winter": 0.31,
+     "spring": 0.24,
+     "monsoon": 0.24,
+     "autumn": 0.21
+    }
+   }
+  ],
+  "created": "2026-10-07T15:01"
+ },
+ "diary": []
+}

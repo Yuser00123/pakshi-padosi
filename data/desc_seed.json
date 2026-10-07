@@ -60,6 +60,18 @@
    "status_line": "Yeh winter visitor hai, thand mein aata hai",
    "hook": "Kaala bird jiski laal pooch thartharati hai",
    "tip": "Purani buildings aur patharon wali jagah check karo"
+  },
+  "Common Sandpiper|winter_visitor|Hinglish": {
+   "size": "Maina se thoda chhota",
+   "look": [
+    "Lagatar poonchh upar-neeche bob karta hai",
+    "Brownish-grey peeth aur safed pet"
+   ],
+   "where": "Paani ke kinare, patharon par chalta hai",
+   "sound": "Teekhi tlee-tlee sound",
+   "status_line": "Winter visitor hai, thand mein aata hai",
+   "hook": "Woh bird jo hamesha dance ki tarah bob karta hai",
+   "tip": "Paani ke edges par dhyan se dekho"
   }
  }
 }
