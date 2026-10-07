@@ -82,6 +82,30 @@ def card_prompt(ctx: Dict, style: str, minutes: int) -> List[dict]:
     return [{"role": "system", "content": SYSTEM}, {"role": "user", "content": user}]
 
 
+def bird_prompt(ctx: Dict, bird: Dict, style: str) -> List[dict]:
+    """ONE bird per call — six small parallel calls finish in the time one big one spends thinking."""
+    schema = {
+        "size": "compared to gauraiya/maina/kauwa/cheel, max 8 words",
+        "look": ["most diagnostic field mark, max 10 words", "second field mark, max 10 words"],
+        "where": "where to look: paani/ped/taar/zameen/aasmaan + a habit, max 12 words",
+        "sound": "one call cue in words, or 'pakka nahi'",
+        "status_line": "one short line in the chosen language that restates the given status (no new facts)",
+        "hook": "one memorable line to recognise it, max 14 words",
+        "tip": "if this bird is hard to find, ONE tip, max 16 words",
+    }
+    data = {
+        "language": style, "place": ctx["place"], "season": ctx.get("months", ""),
+        "bird": {"en": bird["en"], "scientific": bird.get("sci", ""), "hindi_label": bird["hi"], "status": bird["status"],
+                 "records_this_season_nearby": bird["season_records"], "seen_within_25km": bird["local_records"]},
+    }
+    user = (
+        "Describe ONLY this one bird for a beginner who will look for it with bare eyes. "
+        f"Return JSON with exactly these keys:\n{json.dumps(schema, ensure_ascii=False, indent=1)}\n\n"
+        f"DATA:\n{json.dumps(data, ensure_ascii=False, indent=1)}\n\nReturn ONLY the JSON object."
+    )
+    return [{"role": "system", "content": SYSTEM}, {"role": "user", "content": user}]
+
+
 def diary_prompt(card: Dict, seen: List[str], minutes: int, note: str, style: str) -> List[dict]:
     birds = [b["en"] for b in card.get("birds", [])]
     unseen = [b for b in birds if b not in seen]
@@ -103,6 +127,15 @@ def diary_prompt(card: Dict, seen: List[str], minutes: int, note: str, style: st
 def mock_reply(messages: List[dict], json_mode: bool) -> str:
     """Deterministic offline replies so the UI, tests and screenshots work without a model."""
     user = messages[-1]["content"]
+    if json_mode and user.startswith("Describe ONLY this one bird"):
+        data = json.loads(user.split("DATA:\n", 1)[1].rsplit("\n\nReturn ONLY", 1)[0])
+        b = data["bird"]
+        return json.dumps({
+            "size": "(mock) maina jitna", "look": ["(mock) rang/pattern yahan", "(mock) poonchh/sir ka shape"],
+            "where": "(mock) paani ke kinare ya taar par", "sound": "pakka nahi",
+            "status_line": f"(mock) {b['status']}", "hook": "(mock) Gemma connect hoga to asli hook yahan aayega",
+            "tip": "(mock) subah jaldi jao",
+        }, ensure_ascii=False)
     if json_mode and '"DATA' in user or "DATA (the only birds" in user:
         data = json.loads(user.split("DATA (the only birds you may mention):\n", 1)[1].rsplit("\n\nReturn ONLY", 1)[0])
         birds = []

@@ -5,6 +5,7 @@ best window inside those that is dry and not too hot, and we are honest about sm
 """
 from __future__ import annotations
 
+import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import List, Optional
@@ -66,8 +67,16 @@ def _log(msg: str) -> None:
     print(f"[sky] {msg}", flush=True)
 
 
+_cache: dict = {}
+CACHE_TTL = 3600  # forecasts don't change by the minute; also spares the shared-IP quota on free hosts
+
+
 def _fetch(url: str, params: dict) -> dict:
-    """GET → JSON, raising a readable error when Open-Meteo refuses (shared-IP rate limits happen on free hosts)."""
+    """GET → JSON (cached 1 h per ~1 km cell), raising a readable error when Open-Meteo refuses."""
+    key = (url, round(float(params["latitude"]), 2), round(float(params["longitude"]), 2), params.get("hourly"), params.get("daily"))
+    hit = _cache.get(key)
+    if hit and time.time() - hit[0] < CACHE_TTL:
+        return hit[1]
     r = requests.get(url, headers=UA, timeout=20, params=params)
     try:
         data = r.json()
@@ -75,6 +84,7 @@ def _fetch(url: str, params: dict) -> dict:
         raise RuntimeError(f"HTTP {r.status_code}: {r.text[:120]}")
     if not r.ok or data.get("error"):
         raise RuntimeError(f"HTTP {r.status_code}: {data.get('reason') or r.text[:120]}")
+    _cache[key] = (time.time(), data)
     return data
 
 

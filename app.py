@@ -99,12 +99,101 @@ def data_table(ctx: Dict) -> str:
     return (
         "\n".join(rows)
         + f"\n\n<small>📊 {ctx['season_records']:,} bird records within **{ctx['radius_km']} km** in {ctx['months']} "
-        f"({ctx['n_species']} species shown of the top 60) · {ctx['local_records']:,} within 25 km · source: {src} via GBIF · "
+        f"· {ctx['n_species']} species in the data, 6 on the card · {ctx['local_records']:,} records within 25 km · source: {src} via GBIF · "
         f"Hindi names: curated folk names + Wikidata</small>"
     )
 
 
 # ----------------------------------------------------------------------------- Gemma → card
+_DESC_CACHE: Dict[tuple, tuple] = {}  # (english, status, style) → (timestamp, description dict)
+DESC_TTL = 24 * 3600
+T = {  # templated lines, so the model only ever writes about birds
+    "Hinglish": {
+        "opening": "{place} ke {radius} km me is season {n} pakshi record hue hain — {v} sardi ke mehmaan abhi aa rahe hain, aur {e} padosi hamesha yahin the.",
+        "opening_nov": "{place} ke {radius} km me is season {n} pakshi record hue hain — {e} padosi aur {v} mehmaan is card par hain.",
+        "where": "Sabse paas: {spots}. Paani ka kinara + bade ped = sabse zyada chance.",
+        "go": "Phone jeb me, aankhein upar — {minutes} minute.",
+        "hard": "{name} — {tip}",
+        "fail": "Gemma se iska description nahi mil paya — naam aur status data se hai; aankhon se dhoondho.",
+    },
+    "Hindi": {
+        "opening": "{place} के {radius} किमी में इस मौसम {n} पक्षी दर्ज हुए हैं — {v} सर्दी के मेहमान आ रहे हैं, और {e} पड़ोसी हमेशा यहीं थे।",
+        "opening_nov": "{place} के {radius} किमी में इस मौसम {n} पक्षी दर्ज हुए हैं — इस कार्ड पर {e} पड़ोसी और {v} मेहमान हैं।",
+        "where": "सबसे पास: {spots}। पानी का किनारा + बड़े पेड़ = सबसे ज़्यादा संभावना।",
+        "go": "फ़ोन जेब में, आँखें ऊपर — {minutes} मिनट।",
+        "hard": "{name} — {tip}",
+        "fail": "Gemma से इसका विवरण नहीं मिल पाया — नाम और स्थिति डेटा से है; आँखों से ढूँढो।",
+    },
+    "English": {
+        "opening": "{n} bird species were recorded within {radius} km of {place} this season — {v} winter visitors are arriving now, and {e} residents never left.",
+        "opening_nov": "{n} bird species were recorded within {radius} km of {place} this season — {e} residents and {v} visitors are on this card.",
+        "where": "Nearest: {spots}. Water edge + big trees = best odds.",
+        "go": "Phone in pocket, eyes up — {minutes} minutes.",
+        "hard": "{name} — {tip}",
+        "fail": "Gemma couldn't describe this one — name and status are from the data; look for it anyway.",
+    },
+}
+
+
+def _describe(bird: Dict, ctx: Dict, style: str) -> Dict:
+    key = (bird["en"], bird["status"], style)
+    hit = _DESC_CACHE.get(key)
+    if hit and time.time() - hit[0] < DESC_TTL:
+        return hit[1]
+    raw = llm.chat(P.bird_prompt(ctx, bird, style), json_mode=True, max_tokens=2500)
+    d = llm.parse_json(raw)
+    look = d.get("look") if isinstance(d.get("look"), list) else [str(d.get("look") or "")]
+    desc = {
+        "size": str(d.get("size") or "").strip(), "look": [str(x).strip() for x in look if str(x).strip()][:3],
+        "where": str(d.get("where") or "").strip(), "sound": str(d.get("sound") or "pakka nahi").strip(),
+        "status_line": str(d.get("status_line") or "").strip(), "hook": str(d.get("hook") or "").strip(),
+        "tip": str(d.get("tip") or "").strip(),
+    }
+    if desc["size"] or desc["look"]:
+        _DESC_CACHE[key] = (time.time(), desc)
+    return desc
+
+
+def generate_card(ctx: Dict, style: str, progress=None) -> Dict:
+    """Six parallel one-bird calls; the header lines are templates filled from the data."""
+    from concurrent.futures import ThreadPoolExecutor
+
+    wanted = ctx["easy"] + ctx["visitors"]
+    results: Dict[str, Dict] = {}
+    errors: Dict[str, str] = {}
+    with ThreadPoolExecutor(len(wanted)) as ex:
+        futs = {ex.submit(_describe, b, ctx, style): b for b in wanted}
+        for fut, b in futs.items():
+            try:
+                results[b["en"]] = fut.result()
+            except Exception as err:  # noqa: BLE001
+                errors[b["en"]] = str(err)[:120]
+            if progress:
+                progress(len(results) + len(errors))
+    t = T.get(style, T["Hinglish"])
+    birds_out = []
+    for b in wanted:
+        d = results.get(b["en"]) or {"size": "", "look": [], "where": "", "sound": "pakka nahi", "status_line": "", "hook": t["fail"], "tip": ""}
+        birds_out.append({
+            "en": b["en"], "hi": b["hi"], "status": b["status"], "tag": "padosi" if b["status"] == "resident" else "mehmaan",
+            **{k: d[k] for k in ("size", "look", "where", "sound", "hook", "tip")},
+            "status_line": d["status_line"] or STATUS_HI[b["status"]],
+            "season_records": b["season_records"], "local_records": b["local_records"],
+        })
+    n_v = sum(1 for b in wanted if b["status"] != "resident")
+    opening = t["opening" if ctx["visitors"] and any(b["status"] == "winter_visitor" for b in ctx["visitors"]) else "opening_nov"].format(
+        place=ctx["place"].split(",")[0], radius=ctx["radius_km"], n=ctx["n_species"], v=n_v, e=len(wanted) - n_v)
+    spots = ", ".join(f"{h['name']} ({h['km']} km)" for h in ctx["hotspots"][:3]) or "paas ka talaab ya nadi"
+    hard = min((b for b in birds_out if b["tag"] == "mehmaan"), key=lambda b: (b["local_records"], b["season_records"]), default=birds_out[-1])
+    return {
+        "opening": opening, "birds": birds_out,
+        "where_to_go": t["where"].format(spots=spots), "go_line": t["go"].format(minutes=ctx["minutes"]),
+        "hard_one": t["hard"].format(name=hard["hi"], tip=hard["tip"]) if hard.get("tip") else "",
+        "errors": errors, "place": ctx["place"], "when": ctx["when"], "minutes": ctx["minutes"],
+        "lat": ctx["lat"], "lon": ctx["lon"], "created": ctx["created"],
+    }
+
+
 def _validate_card(raw: str, ctx: Dict) -> Dict:
     data = llm.parse_json(raw)
     wanted = ctx["easy"] + ctx["visitors"]
@@ -191,14 +280,14 @@ def do_card(place_text, minutes, when, style, store):
 
     table = data_table(ctx)
     head = f"## 🪶 {ctx['place']} · {ctx['when']}\n\n{table}"
-    raw = None
+    done = {"n": 0}
+    card = None
     try:
-        for result, status in _poll(lambda: llm.chat(P.card_prompt(ctx, style, int(minutes)), json_mode=True), "Gemma card likh raha hai", head):
+        for result, status in _poll(lambda: generate_card(ctx, style, progress=lambda n: done.update(n=n)), "Gemma likh raha hai", head):
             if status:
-                yield status, checklist, store
+                yield status.replace("Gemma likh raha hai", f"Gemma {done['n']}/{N_BIRDS} pakshi likh chuka"), checklist, store
             else:
-                raw = result
-        card = _validate_card(raw, ctx)
+                card = result
     except llm.LLMError as err:
         yield head + f"\n\n⚠️ {err}", checklist, store
         return
