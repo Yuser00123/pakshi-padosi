@@ -116,6 +116,7 @@ class Survey:
     species: List[Species] = field(default_factory=list)
     hotspots: List[Hotspot] = field(default_factory=list)
     hotspot_radius_km: int = 0
+    effort: Dict[str, int] = field(default_factory=dict)  # all-bird records per quarter (birding effort)
     datasets: List[Tuple[str, int]] = field(default_factory=list)  # (dataset title, records)
     local_records: int = 0  # seasonal records within LOCAL_KM
 
@@ -199,22 +200,45 @@ def _species_name(key: int) -> Tuple[str, str]:
     return sci, en or sci
 
 
-def classify(quarters: Dict[str, int], season_records: int) -> str:
-    """Seasonal signature → status. Residents keep ≥ ~12 % of their records in every season (a uniform bird has 25 %);
-    winter visitors vanish in the monsoon, monsoon visitors vanish in winter, passage birds vanish in both.
-    Calibrated on GBIF data around Raebareli (Oct 2026): residents 14–30 % in the off-season, migrants ≤ 12 %."""
+def classify(quarters: Dict[str, int], season_records: int, effort: Optional[Dict[str, int]] = None) -> str:
+    """Seasonal signature → status. Residents keep a fair share of their records in every season; winter visitors vanish
+    in the monsoon, monsoon visitors vanish in winter, passage birds vanish in both.
+
+    `effort` = ALL bird records per quarter in the same circle, which corrects for when people go birding (a sanctuary
+    visited mostly in winter makes every resident look like a winter visitor otherwise). Thresholds calibrated on GBIF
+    data around Raebareli (Oct 2026): residents keep ≥ 14 % of effort-corrected share in the off-season, migrants ≤ 4 %.
+    With fewer than 40 records a migrant claim needs a clean ZERO in the off-season — one monsoon record out of 26 is
+    noise, not migration (keeps the resident White-browed Wagtail honest); a quarter with almost no birding at all
+    (< 30 records of any bird) can't support a 'vanishes' claim."""
     tot = sum(quarters.values())
-    if tot < 20 or season_records < 3:
+    if tot < 15 or season_records < 3:
         return "resident"  # too little data to claim anything exotic (small samples flip randomly)
-    w, sp, mo, au = (quarters.get(k, 0) / tot for k in ("winter", "spring", "monsoon", "autumn"))
-    if mo <= 0.06 and w >= 0.25:
+    keys = ("winter", "spring", "monsoon", "autumn")
+    counts = {k: quarters.get(k, 0) for k in keys}
+    if effort and sum(effort.values()) > 0:
+        base = {k: effort.get(k, 0) / sum(effort.values()) for k in keys}
+        adj = {k: (counts[k] / base[k] if base[k] > 0 else 0.0) for k in keys}
+        informative = {k: effort.get(k, 0) >= 30 for k in keys}
+    else:
+        adj = dict(counts)
+        informative = {k: True for k in keys}
+    total_adj = sum(adj.values()) or 1.0
+    share = {k: adj[k] / total_adj for k in keys}
+    w, sp, mo, au = (share[k] for k in keys)
+    big = tot >= 40
+
+    def gone(k: str, cap: float = 0.04) -> bool:
+        return informative[k] and (counts[k] == 0 or (big and share[k] <= cap))
+
+    if gone("monsoon") and w >= 0.2 and (w + au) >= 0.5:  # autumn counts: passage birds arrive Sep–Oct
         return "winter_visitor"
-    if w <= 0.06 and mo >= 0.25:
+    if gone("winter") and mo >= 0.25:
         return "monsoon_visitor"
-    if w <= 0.08 and mo <= 0.08 and (sp + au) >= 0.8:
+    if gone("winter", 0.06) and gone("monsoon", 0.06) and (sp + au) >= 0.8:
         return "passage"
-    if min(w, sp, mo, au) <= 0.05 and max(w, sp, mo, au) >= 0.5:
-        return "winter_visitor" if w == max(w, sp, mo, au) else ("monsoon_visitor" if mo == max(w, sp, mo, au) else "passage")
+    if big and min(share.values()) <= 0.05 and max(share.values()) >= 0.5 and informative[min(share, key=share.get)]:
+        peak = max(share, key=share.get)
+        return "winter_visitor" if peak == "winter" else ("monsoon_visitor" if peak == "monsoon" else "passage")
     return "resident"
 
 
@@ -313,7 +337,9 @@ def nearby(lat: float, lon: float, month: int, max_species: int = MAX_SPECIES) -
         f_spots = ex.submit(hotspots_near, lat, lon, season)
         f_sets = ex.submit(_datasets, lat, lon, radius)
         n_year, year_counts = f_year.result()
-        quarter_counts = {q: f.result()[1] for q, f in f_q.items()}
+        quarter_results = {q: f.result() for q, f in f_q.items()}
+        quarter_counts = {q: r[1] for q, r in quarter_results.items()}
+        effort = {q: r[0] for q, r in quarter_results.items()}  # all bird records per quarter = birding effort
         n_local, local_counts = (n_season, season_counts) if f_local is None else f_local.result()
         spots, spot_radius = f_spots.result()
         datasets = f_sets.result()
@@ -325,13 +351,13 @@ def nearby(lat: float, lon: float, month: int, max_species: int = MAX_SPECIES) -
         n = season_counts[key]
         q = {qn: quarter_counts[qn].get(key, 0) for qn in QUARTERS}
         sci, en = names.get(key, (str(key), str(key)))
-        species.append(Species(key, sci, en, n, year_counts.get(key, n), q, classify(q, n), local_counts.get(key, 0)))
+        species.append(Species(key, sci, en, n, year_counts.get(key, n), q, classify(q, n, effort), local_counts.get(key, 0)))
 
     return Survey(
         lat=lat, lon=lon, month=month, radius_km=radius,
         season_records=n_season, year_records=n_year,
         species=species, hotspots=spots, hotspot_radius_km=spot_radius,
-        datasets=datasets, local_records=n_local,
+        datasets=datasets, local_records=n_local, effort=effort,
     )
 
 

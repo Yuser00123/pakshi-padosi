@@ -8,7 +8,7 @@
  "sunrise": "6:00 AM",
  "sunset": "5:44 PM",
  "rain_day_pct": 85,
- "aqi_now": 140,
+ "aqi_now": 143,
  "radius_km": 50,
  "season_records": 1177,
  "year_records": 5452,
@@ -21,12 +21,12 @@
    "records": 121
   },
   {
-   "name": "Bheetha Near Jagdishpur-26.13, 81.438",
+   "name": "Bheetha near Jagdishpur",
    "km": 23.6,
    "records": 71
   },
   {
-   "name": "Unnamed Road, Chak Rar, Uttar Pradesh, IN (26.18, 81.364)",
+   "name": "Chak Rar",
    "km": 14.9,
    "records": 25
   },
@@ -136,19 +136,19 @@
    }
   },
   {
-   "en": "White-browed Wagtail",
-   "sci": "Motacilla maderaspatensis",
-   "hi": "ममोला / बड़ी धोबिन (Mamola) · White-browed Wagtail",
-   "hi_src": "curated",
+   "en": "Common Sandpiper",
+   "sci": "Actitis hypoleucos",
+   "hi": "साधारण टिटहरी · Common Sandpiper",
+   "hi_src": "wikidata",
    "status": "winter_visitor",
    "season_records": 8,
-   "year_records": 26,
-   "local_records": 1,
+   "year_records": 18,
+   "local_records": 5,
    "quarters": {
-    "winter": 0.38,
-    "spring": 0.27,
-    "monsoon": 0.04,
-    "autumn": 0.31
+    "winter": 0.28,
+    "spring": 0.28,
+    "monsoon": 0.0,
+    "autumn": 0.44
    }
   }
  ],
@@ -794,5 +794,5 @@
    }
   }
  ],
- "created": "2026-10-07T12:37"
+ "created": "2026-10-07T14:57"
 }

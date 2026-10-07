@@ -1,0 +1,65 @@
+{
+ "_about": "Descriptions Gemma (gemma-4-31b-it via the Gemini API) wrote during the first live runs on 7 Oct 2026, kept so the demo town's card is instant and survives the API's intermittent 500s. Everything else is generated live. One field mark was corrected by hand after checking a field guide: White Wagtail 'black cap aur face' → 'gale par kaala patch' (winter birds here have a white face and a black bib). Grow this file from GET /cache on a running instance.",
+ "descriptions": {
+  "Indian Pond-Heron|resident|Hinglish": {
+   "size": "Kauwa se bada",
+   "look": [
+    "Buff-brown rang, thoda chota heron",
+    "Choti gardan aur peeli choonch"
+   ],
+   "where": "Paani ke kinare, ek jagah khade rehna",
+   "sound": "pakka nahi",
+   "status_line": "Resident hai, saal bhar yahi rehta hai",
+   "hook": "Brown rang ka chota bagula jo statue ban jata hai",
+   "tip": "Paani ke paas dhyan se dekho, camouflage ho jata hai"
+  },
+  "Red-whiskered Bulbul|resident|Hinglish": {
+   "size": "Maina se thoda chhota",
+   "look": [
+    "Sir par lambi khadi kalgi (crest)",
+    "Gaalon par red patch aur white cheeks"
+   ],
+   "where": "Ped ya garden mein, aksar jhaadiyon mein dikhta hai",
+   "sound": "Cheerful whistling sound",
+   "status_line": "Resident hai, saal bhar yahan rehta hai",
+   "hook": "Red cheeks aur khadi kalgi wala cute bird",
+   "tip": "Subah ped ki sabse upar wali tehni dekho, wahin baith kar gaata hai"
+  },
+  "Red-wattled Lapwing|resident|Hinglish": {
+   "size": "Maina se bada",
+   "look": [
+    "Face par red skin (wattle), kaala sir aur chaati",
+    "White breast and brown back, lambi peeli taangein"
+   ],
+   "where": "Zameen ya khule maidan mein, paani ke paas",
+   "sound": "Loud did-he-do call",
+   "status_line": "Resident hai, saal bhar yahin rehta hai",
+   "hook": "Shor machane wala zameeni bird",
+   "tip": "Aawaz pehle aayegi — 'did-he-do-it' sunte hi khule maidan ki taraf dekho"
+  },
+  "White Wagtail|winter_visitor|Hinglish": {
+   "size": "Gauraiya ke size ka",
+   "look": [
+    "Safed chehra aur pet, grey peeth, gale par kaala patch",
+    "Lambi poonchh jo hamesha up-down hilti hai"
+   ],
+   "where": "Zameen ya paani ke paas, khule maidan mein",
+   "sound": "Tez chi-chi sound",
+   "status_line": "Winter visitor hai, thand mein aata hai",
+   "hook": "Safed rang aur non-stop wagging tail",
+   "tip": "Paani ke kinare ya khule ground par dhoondo"
+  },
+  "Black Redstart|winter_visitor|Hinglish": {
+   "size": "Gauraiya jitna",
+   "look": [
+    "Poora dark grey body, bright orange-red tail",
+    "Tail hamesha thoda shiver ya quiver karta hai"
+   ],
+   "where": "Zameen ya purani deewaron par, aksar baith kar dekhta hai",
+   "sound": "Tez tic-tic sound",
+   "status_line": "Yeh winter visitor hai, thand mein aata hai",
+   "hook": "Kaala bird jiski laal pooch thartharati hai",
+   "tip": "Purani buildings aur patharon wali jagah check karo"
+  }
+ }
+}

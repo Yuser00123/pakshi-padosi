@@ -7,6 +7,10 @@
 "Fulica atra",
 "Eurasian Coot"
 ],
+"2474416": [
+"Porphyrio porphyrio",
+"Western Swamphen"
+],
 "2474732": [
 "Amaurornis phoenicurus",
 "White-breasted Waterhen"
@@ -19,13 +23,41 @@
 "Coracias benghalensis",
 "Indian Roller"
 ],
+"2475410": [
+"Merops orientalis",
+"Green Bee-eater"
+],
+"2475452": [
+"Merops philippinus",
+"Blue-tailed Bee-eater"
+],
+"2475532": [
+"Alcedo atthis",
+"Common Kingfisher"
+],
+"2475679": [
+"Ceryle rudis",
+"Pied Kingfisher"
+],
 "2475923": [
 "Ocyceros birostris",
 "Indian Gray Hornbill"
 ],
+"2477102": [
+"Cypsiurus balasiensis",
+"Asian Palm-Swift"
+],
 "2479226": [
 "Psittacula krameri",
 "Rose-ringed Parakeet"
+],
+"2480437": [
+"Haliastur indus",
+"Brahminy Kite"
+],
+"2480482": [
+"Circus aeruginosus",
+"Eurasian Marsh-Harrier"
 ],
 "2480696": [
 "Neophron percnopterus",
@@ -35,9 +67,25 @@
 "Threskiornis melanocephalus",
 "Black-headed Ibis"
 ],
+"2480773": [
+"Plegadis falcinellus",
+"Glossy Ibis"
+],
+"2480778": [
+"Pseudibis papillosa",
+"Red-naped Ibis"
+],
+"2480863": [
+"Nycticorax nycticorax",
+"Black-crowned Night-Heron"
+],
 "2480876": [
 "Egretta garzetta",
 "Little Egret/Western Reef-Heron"
+],
+"2480880": [
+"Egretta intermedia",
+"intermediate egret"
 ],
 "2480905": [
 "Ardeola grayii",
@@ -47,6 +95,22 @@
 "Ardea purpurea",
 "Purple Heron"
 ],
+"2481121": [
+"Chlidonias hybrida",
+"Whiskered Tern"
+],
+"2481713": [
+"Tringa glareola",
+"Wood Sandpiper"
+],
+"2481714": [
+"Tringa totanus",
+"Common Redshank"
+],
+"2481728": [
+"Tringa ochropus",
+"Green Sandpiper"
+],
 "2481800": [
 "Actitis hypoleucos",
 "Common Sandpiper"
@@ -54,6 +118,22 @@
 "2481850": [
 "Metopidius indicus",
 "Bronze-winged Jacana"
+],
+"2481889": [
+"Phalacrocorax fuscicollis",
+"Indian Cormorant"
+],
+"2481890": [
+"Phalacrocorax carbo",
+"Great Cormorant/European Shag"
+],
+"2481938": [
+"Mycteria leucocephala",
+"Painted Stork"
+],
+"2482048": [
+"Tachybaptus ruficollis",
+"Little Grebe"
 ],
 "2482081": [
 "Anhinga melanogaster",
@@ -71,9 +151,25 @@
 "Corvus splendens",
 "House Crow"
 ],
+"2484096": [
+"Aegithina tiphia",
+"Common Iora"
+],
+"2484723": [
+"Dicaeum erythrorhynchos",
+"Pale-billed Flowerpecker"
+],
+"2486119": [
+"Pycnonotus luteolus",
+"White-browed Bulbul"
+],
 "2486131": [
 "Pycnonotus cafer",
 "Red-vented Bulbul"
+],
+"2486132": [
+"Pycnonotus leucotis",
+"White-eared Bulbul"
 ],
 "2486151": [
 "Pycnonotus jocosus",
@@ -91,9 +187,17 @@
 "Acridotheres tristis",
 "Common Myna"
 ],
+"2489362": [
+"Zosterops palpebrosus",
+"Oriental White-eye"
+],
 "2490277": [
 "Anthus rufulus",
 "Paddyfield Pipit"
+],
+"2492428": [
+"Cyornis tickelliae",
+"Tickell's Blue Flycatcher"
 ],
 "2492519": [
 "Saxicola caprata",
@@ -111,17 +215,53 @@
 "Prinia inornata",
 "Plain Prinia"
 ],
+"2492822": [
+"Cisticola juncidis",
+"Zitting Cisticola"
+],
+"2492846": [
+"Lanius cristatus",
+"Brown Shrike"
+],
+"2492960": [
+"Sylvia curruca",
+"Lesser Whitethroat"
+],
 "2493028": [
 "Orthotomus sutorius",
 "Common Tailorbird"
+],
+"2493084": [
+"Phylloscopus trochiloides",
+"Greenish Warbler"
+],
+"2493145": [
+"Acrocephalus dumetorum",
+"Blyth's Reed Warbler"
+],
+"2493314": [
+"Turdoides malcolmi",
+"Large Gray Babbler"
+],
+"2493324": [
+"Turdoides affinis",
+"Yellow-billed Babbler"
 ],
 "2493598": [
 "Lonchura punctulata",
 "Scaly-breasted Munia"
 ],
+"2493698": [
+"Amandava amandava",
+"Red Avadavat"
+],
 "2493970": [
 "Dicrurus macrocercus",
 "Black Drongo"
+],
+"2494056": [
+"Ploceus philippinus",
+"Baya Weaver"
 ],
 "2495414": [
 "Columba livia",
@@ -131,6 +271,10 @@
 "Streptopelia decaocto",
 "Eurasian Collared-Dove"
 ],
+"2495757": [
+"Treron phoenicopterus",
+"Yellow-footed Pigeon"
+],
 "2496347": [
 "Eudynamys scolopaceus",
 "Asian Koel"
@@ -139,13 +283,37 @@
 "Athene brama",
 "Spotted Owlet"
 ],
+"2498402": [
+"Dendrocygna bicolor",
+"Fulvous Whistling-Duck"
+],
+"2498404": [
+"Dendrocygna javanica",
+"Lesser Whistling-Duck"
+],
 "2498415": [
 "Upupa epops",
 "Eurasian Hoopoe"
 ],
+"5228199": [
+"Gallinula chloropus",
+"Eurasian Moorhen"
+],
 "5228328": [
 "Halcyon smyrnensis",
 "White-throated Kingfisher"
+],
+"5228662": [
+"Apus affinis",
+"Little Swift"
+],
+"5228816": [
+"Dinopium benghalense",
+"Black-rumped Flameback"
+],
+"5229055": [
+"Psittacula eupatria",
+"Alexandrine Parakeet"
 ],
 "5229126": [
 "Himantopus himantopus",
@@ -159,6 +327,10 @@
 "Vanellus duvaucelii",
 "River Lapwing"
 ],
+"5229163": [
+"Pelecanus philippensis",
+"Spot-billed Pelican"
+],
 "5229167": [
 "Milvus migrans",
 "Black Kite"
@@ -166,6 +338,10 @@
 "5229410": [
 "Anastomus oscitans",
 "Asian Openbill"
+],
+"5230801": [
+"Hirundo smithii",
+"Wire-tailed Swallow"
 ],
 "5231190": [
 "Passer domesticus",
@@ -195,6 +371,10 @@
 "Microcarbo niger",
 "Little Cormorant"
 ],
+"6087954": [
+"Rhipidura albogularis",
+"Spot-breasted Fantail"
+],
 "6100845": [
 "Oenanthe fusca",
 "Brown Rock Chat"
@@ -207,6 +387,10 @@
 "Sturnia pagodarum",
 "Brahminy Starling"
 ],
+"6101070": [
+"Parus cinereus",
+"Cinereous Tit"
+],
 "6101223": [
 "Spilopelia senegalensis",
 "Laughing Dove"
@@ -214,6 +398,10 @@
 "6101224": [
 "Spilopelia chinensis",
 "Spotted Dove"
+],
+"7340278": [
+"Ptyonoprogne concolor",
+"Dusky Crag-Martin"
 ],
 "7340537": [
 "Turdoides striata",
@@ -223,20 +411,60 @@
 "Cinnyris asiaticus",
 "Purple Sunbird"
 ],
+"7340855": [
+"Leptocoma zeylonica",
+"Purple-rumped Sunbird"
+],
+"7341522": [
+"Phylloscopus humei",
+"Hume's Warbler"
+],
 "7341597": [
 "Gracupica contra",
 "Asian Pied Starling"
+],
+"7691806": [
+"Psilopogon haemacephalus",
+"Coppersmith Barbet"
 ],
 "7760921": [
 "Psilopogon zeylanicus",
 "Brown-headed Barbet"
 ],
+"9273219": [
+"Lanius schach",
+"Long-tailed Shrike"
+],
+"9450106": [
+"Anas poecilorhyncha",
+"spot-billed duck"
+],
 "9451184": [
 "Pavo cristatus",
 "Indian Peafowl"
 ],
+"9515886": [
+"Hirundo rustica",
+"Barn Swallow"
+],
+"9523325": [
+"Oriolus kundoo",
+"Indian Golden Oriole"
+],
+"9600020": [
+"Dicrurus leucophaeus",
+"Ashy Drongo"
+],
 "9687165": [
 "Motacilla alba",
 "White Wagtail"
+],
+"9752617": [
+"Ardea alba",
+"Great Egret"
+],
+"9797180": [
+"Ardea cinerea",
+"Gray/Purple Heron"
 ]
 }

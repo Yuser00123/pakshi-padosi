@@ -291,7 +291,7 @@ def chat(messages: List[Message], json_mode: bool = False, temperature: float | 
     if FOLD_SYSTEM and PROVIDER == "openai":
         messages = _fold_system(messages)
 
-    delays = (0, 4, 10)  # seconds between attempts
+    delays = (0, 3, 6, 6)  # seconds between attempts (the budget decides how many actually run)
     last_err: Exception | None = None
     started = time.time()
     for attempt, delay in enumerate(delays, 1):

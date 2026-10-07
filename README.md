@@ -56,23 +56,30 @@ New → Blueprint → this repo (`render.yaml` sets everything, region Singapore
 | `LLM_MODEL` | `gemma-4-31b-it` | tested; `gemma-4-26b-a4b-it` is faster; `gemma3:4b` on Ollama |
 | `LLM_MAX_TOKENS` | `6000` | Gemma 4 thinks before it answers; thinking eats tokens |
 | `TOWN_DEFAULT` | `Raebareli` | initial location box |
+| `TOWN_COORDS` | — | its coordinates (`26.2087, 81.2186`), so the default needs no geocoder |
 | `GBIF_ENOUGH_RECORDS` | `1000` | widen the radius until this many seasonal records |
+| `CARD_BUDGET_S` / `BIRD_BUDGET_S` | `90` / `70` | show the card with whatever Gemma finished by then / no new retry per bird after this |
 
 ## How it's built
 
 ```
 app.py        Gradio 6 on FastAPI (+ GET /health), PWA; three tabs: Card · Bahar (field checklist) · Diary; BrowserState persistence
-birds.py      GBIF client: adaptive radius, four-season migrant classifier, hotspot clustering from occurrence coordinates
-sky.py        Open-Meteo: sunrise/sunset/rain/AQI → best window with a one-line Hinglish reason
-places.py     OpenStreetMap Nominatim geocode / reverse-geocode (throttled, identified)
+birds.py      GBIF client: adaptive radius, effort-corrected four-season migrant classifier, hotspot clustering from coordinates
+sky.py        Open-Meteo: sunrise/sunset/rain/AQI → best window (NOAA sunrise maths as fallback); responses cached 1 h
+places.py     geocoding: OSM Nominatim → Photon → built-in Indian city table (free hosts share IPs that get refused)
 names.py      Hindi names: curated folk names → Wikidata → "pakka nahi"
-prompts.py    the card prompt (strict JSON, species list as input) + diary prompt + deterministic mock
+prompts.py    one-bird prompt (strict JSON, our species + status as input) + diary prompt + deterministic mock
+data/desc_seed.json   Gemma's own descriptions for the demo town, shipped so the default card is instant (see below)
 llm.py        provider-agnostic client (OpenAI-compatible / google-genai / mock) with Gemma-4 thought stripping + retries
 scripts/build_hindi_names.py   one-shot Wikidata SPARQL → data/hindi_names.json
 test_app.py   offline tests with fixtures in tests/fixtures/
 ```
 
-**Gemma 4 note.** Through the Gemini OpenAI-compatible endpoint Gemma 4 returns its reasoning inline as `<thought>…</thought>` and takes 20–60 s. `llm.py` strips the thoughts (streaming-safe) and retries transient 500s / empty answers; the UI shows the data table instantly and a *"Gemma card likh raha hai… 23s"* timer while it writes.
+**Gemma 4 note.** Through the Gemini OpenAI-compatible endpoint Gemma 4 returns its reasoning inline as `<thought>…</thought>` and takes 20–60 s per answer. The first version asked for the whole six-bird card in one call: **194 s** on the live server, and a single 500 lost everything. Now each bird is its own small call, six run in parallel, and the page fills in as they finish (first bird ≈ 35 s); a bird that still fails after its retry budget is shown with name + status from the data and a one-line "press again" note — the finished ones are cached, so the second press only writes the missing ones. The header lines (opening, where-to-go, hardest bird) are plain templates filled from the data, not model output: nothing to hallucinate there.
+
+**Seed cache.** `data/desc_seed.json` holds the descriptions Gemma wrote for Raebareli's six birds during the first live runs, so the demo town's card appears instantly and survives the API's bad hours. Everything else is generated live; `GET /cache` dumps what the running instance has written if you want to grow the seed.
+
+**Migrant classifier.** A species' records are split by season and compared with *all* bird records in the same circle (= when people actually go birding). A resident keeps a fair share in every season; a winter visitor vanishes in the monsoon. Without the effort correction, a sanctuary that birders visit mostly in winter made every resident look like a winter visitor (Bharatpur: 25 "visitors" → 1). Small samples need a clean zero in the off-season; under 15 records we just say resident.
 
 ## Credits
 

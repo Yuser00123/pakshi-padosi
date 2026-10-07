@@ -109,6 +109,26 @@ def data_table(ctx: Dict) -> str:
 
 # ----------------------------------------------------------------------------- Gemma → card
 _DESC_CACHE: Dict[tuple, tuple] = {}  # (english, status, style) → (timestamp, description dict)
+SEED_PATH = Path(__file__).with_name("data") / "desc_seed.json"
+
+
+def _load_seed() -> int:
+    """Descriptions Gemma already wrote for the demo town, shipped with the repo → the default card is instant and
+    survives Google's intermittent 500s. Keys look like "White Wagtail|winter_visitor|Hinglish"."""
+    try:
+        seed = json.loads(SEED_PATH.read_text(encoding="utf-8"))
+    except Exception:  # noqa: BLE001
+        return 0
+    far = time.time() + 10 * 365 * 86400  # seeds don't expire
+    for key, desc in seed.get("descriptions", {}).items():
+        en, status, style = key.split("|")
+        _DESC_CACHE[(en, status, style)] = (far, desc)
+    return len(seed.get("descriptions", {}))
+
+
+def cache_dump() -> Dict:
+    """Everything Gemma has written this process (plus the seed) — read-only, no secrets; used to grow the seed file."""
+    return {"|".join(k): v for k, (_, v) in _DESC_CACHE.items()}
 BIRD_BUDGET_S = float(os.getenv("BIRD_BUDGET_S", "70"))   # per-bird: no new retry after this
 CARD_BUDGET_S = float(os.getenv("CARD_BUDGET_S", "90"))   # whole card: show what we have after this
 DESC_TTL = 24 * 3600
@@ -138,6 +158,9 @@ T = {  # templated lines, so the model only ever writes about birds
         "fail": "Gemma couldn't describe this one — name and status are from the data; look for it anyway.",
     },
 }
+
+
+N_SEEDED = _load_seed()
 
 
 def _describe(bird: Dict, ctx: Dict, style: str) -> Dict:
@@ -270,6 +293,10 @@ def render_card(card: Dict, ctx: Dict) -> str:
         if b["hook"]:
             bits.append(f"💡 *{b['hook']}*")
         L += ["  \n".join(bits), ""]
+    missing = [en for en in (card.get("errors") or {}) if not any(b["en"] == en and b.get("pending") for b in card["birds"])]
+    if missing and card.get("done") == card.get("total"):
+        L += [f"⚠️ *{len(missing)} pakshi Gemma se nahi likhe ja sake (Google API busy). **Card banao** dobara dabao — jo ban gaye woh "
+              "cache me hain, sirf baaki wale likhe jaayenge.*", ""]
     if card["where_to_go"]:
         L += [f"**🗺 Kahan jaayein:** {card['where_to_go']}", ""]
     if card["hard_one"]:
@@ -482,7 +509,13 @@ api = FastAPI(title="Pakshi Padosi")
 
 @api.get("/health")
 def health():
-    return {"status": "ok", "service": "pakshi-padosi", "model": llm.describe(), "uptime_seconds": int(time.time() - STARTED)}
+    return {"status": "ok", "service": "pakshi-padosi", "model": llm.describe(), "uptime_seconds": int(time.time() - STARTED),
+            "descriptions_cached": len(_DESC_CACHE), "seeded": N_SEEDED}
+
+
+@api.get("/cache")
+def cache():
+    return cache_dump()
 
 
 app = gr.mount_gradio_app(api, demo, path="/", theme=gr.themes.Soft(primary_hue="green", secondary_hue="amber"), css=CSS, pwa=True)

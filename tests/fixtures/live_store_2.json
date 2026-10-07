@@ -7,16 +7,17 @@
     "hi": "अंधा बगुला (Andha bagula) · Indian Pond-Heron",
     "status": "resident",
     "tag": "padosi",
-    "size": "Kauwe se bada",
+    "size": "Kauwa se bada",
     "look": [
-     "Brownish-buff colour, mitti jaisa",
-     "Choti moti gardan, hamesha jhuka rehta hai"
+     "Buff-brown rang, thoda chota heron",
+     "Choti gardan aur peeli choonch"
     ],
-    "where": "Paani ke kinare ya khet mein, shant khada rehta hai",
+    "where": "Paani ke kinare, ek jagah khade rehna",
     "sound": "pakka nahi",
-    "hook": "Mitti ke rang ka chota bagula jo statue ban jata hai",
-    "tip": "Dhyan se dekho, ye aksar ghaas mein chhupa hota hai",
-    "status_line": "Resident hai, saal bhar yahan rehta hai",
+    "hook": "Brown rang ka chota bagula jo statue ban jata hai",
+    "tip": "Paani ke paas dhyan se dekho, camouflage ho jata hai",
+    "status_line": "Resident hai, saal bhar yahi rehta hai",
+    "pending": false,
     "season_records": 25,
     "local_records": 10
    },
@@ -25,16 +26,14 @@
     "hi": "सिपाही बुलबुल (Sipahi bulbul) · Red-whiskered Bulbul",
     "status": "resident",
     "tag": "padosi",
-    "size": "Maina se thoda chhota",
-    "look": [
-     "Sir par lambi khadi kalgi (crest)",
-     "Gaalon par red patch aur white cheeks"
-    ],
-    "where": "Ped ya garden mein, aksar jhaadiyon mein dikhta hai",
-    "sound": "Cheerful whistling sound",
-    "hook": "Red cheeks aur khadi kalgi wala cute bird",
-    "tip": "Garden ki ghani jhaadiyon mein dhyan se dekho",
-    "status_line": "Resident hai, saal bhar yahan rehta hai",
+    "size": "",
+    "look": [],
+    "where": "",
+    "sound": "pakka nahi",
+    "hook": "Gemma se iska description nahi mil paya — naam aur status data se hai; aankhon se dhoondho.",
+    "tip": "",
+    "status_line": "padosi (saal bhar yahin)",
+    "pending": false,
     "season_records": 24,
     "local_records": 10
    },
@@ -50,12 +49,51 @@
     "hook": "Gemma se iska description nahi mil paya — naam aur status data se hai; aankhon se dhoondho.",
     "tip": "",
     "status_line": "padosi (saal bhar yahin)",
+    "pending": false,
     "season_records": 24,
     "local_records": 8
    },
    {
     "en": "White Wagtail",
     "hi": "धोबिन / खंजन (Dhobin / Khanjan) · White Wagtail",
+    "status": "winter_visitor",
+    "tag": "mehmaan",
+    "size": "Gauraiya ke size ka",
+    "look": [
+     "Safed body, black cap aur face",
+     "Lambi poonchh jo hamesha up-down hilti hai"
+    ],
+    "where": "Zameen ya paani ke paas, khule maidan mein",
+    "sound": "Tez chi-chi sound",
+    "hook": "Safed rang aur non-stop wagging tail",
+    "tip": "Paani ke kinare ya khule ground par dhoondo",
+    "status_line": "Winter visitor hai, thand mein aata hai",
+    "pending": false,
+    "season_records": 12,
+    "local_records": 4
+   },
+   {
+    "en": "Black Redstart",
+    "hi": "थिरथिरा (Thirthira) · Black Redstart",
+    "status": "winter_visitor",
+    "tag": "mehmaan",
+    "size": "Gauraiya se thoda bada",
+    "look": [
+     "Poora dark grey body, bright orange-red tail",
+     "Tail hamesha thoda shiver ya quiver karta hai"
+    ],
+    "where": "Zameen ya purani deewaron par, aksar baith kar dekhta hai",
+    "sound": "Tez tic-tic sound",
+    "hook": "Kaala bird jiski laal pooch thartharati hai",
+    "tip": "Purani buildings aur patharon wali jagah check karo",
+    "status_line": "Yeh winter visitor hai, thand mein aata hai",
+    "pending": false,
+    "season_records": 9,
+    "local_records": 3
+   },
+   {
+    "en": "White-browed Wagtail",
+    "hi": "ममोला / बड़ी धोबिन (Mamola) · White-browed Wagtail",
     "status": "winter_visitor",
     "tag": "mehmaan",
     "size": "",
@@ -65,64 +103,32 @@
     "hook": "Gemma se iska description nahi mil paya — naam aur status data se hai; aankhon se dhoondho.",
     "tip": "",
     "status_line": "sardi ka mehmaan (Oct–Feb)",
-    "season_records": 12,
-    "local_records": 4
-   },
-   {
-    "en": "Black Redstart",
-    "hi": "थिरथिरा (Thirthira) · Black Redstart",
-    "status": "winter_visitor",
-    "tag": "mehmaan",
-    "size": "Gauraiya jitna chota",
-    "look": [
-     "Dark grey body aur orange-red tail",
-     "Tail hamesha thoda shake karti hai"
-    ],
-    "where": "Zameen ya deewaron par, aksar baithkar dekhta hai",
-    "sound": "Tez ticking sound",
-    "hook": "Kaala bird jiski red tail hilti rehti hai",
-    "tip": "Purani buildings aur patharon wali jagah check karo",
-    "status_line": "Winter visitor hai, thand mein aata hai",
-    "season_records": 9,
-    "local_records": 3
-   },
-   {
-    "en": "White-browed Wagtail",
-    "hi": "ममोला / बड़ी धोबिन (Mamola) · White-browed Wagtail",
-    "status": "winter_visitor",
-    "tag": "mehmaan",
-    "size": "Gauraiya se thoda bada",
-    "look": [
-     "Aankh ke upar safed line (white eyebrow)",
-     "Greyish body aur lambi pooch jo hilti rehti hai"
-    ],
-    "where": "Zameen aur paani ke paas, walk karte hue",
-    "sound": "Tez chi-chi sound",
-    "hook": "Safed eyebrow aur hilti hui pooch wala grey bird",
-    "tip": "Paani ke kinare ya geeli zameen par dhoondo",
-    "status_line": "Yeh winter visitor hai",
+    "pending": false,
     "season_records": 8,
     "local_records": 1
    }
   ],
-  "where_to_go": "Sabse paas: Indira Gandhi Smarak Vanaspati Udyan (3.1 km), Bheetha Near Jagdishpur-26.13, 81.438 (23.6 km), Unnamed Road, Chak Rar, Uttar Pradesh, IN (26.18, 81.364) (14.9 km). Paani ka kinara + bade ped = sabse zyada chance.",
+  "where_to_go": "Sabse paas: Indira Gandhi Smarak Vanaspati Udyan (3.1 km), Chak Rar (14.9 km), Bheetha near Jagdishpur (23.6 km). Paani ka kinara + bade ped = sabse zyada chance.",
   "go_line": "Phone jeb me, aankhein upar — 40 minute.",
-  "hard_one": "ममोला / बड़ी धोबिन (Mamola) · White-browed Wagtail — Paani ke kinare ya geeli zameen par dhoondo",
+  "hard_one": "",
   "errors": {
+   "White-browed Wagtail": "Model error: Error code: 500 - [{'error': {'code': 500, 'message': 'Internal error encountered.', 'status': 'INTERNAL'}}",
    "Red-wattled Lapwing": "Model error: Error code: 500 - [{'error': {'code': 500, 'message': 'Internal error encountered.', 'status': 'INTERNAL'}}",
-   "White Wagtail": "Model error: Error code: 500 - [{'error': {'code': 500, 'message': 'Internal error encountered.', 'status': 'INTERNAL'}}"
+   "Red-whiskered Bulbul": "Model error: Error code: 500 - [{'error': {'code': 500, 'message': 'Internal error encountered.', 'status': 'INTERNAL'}}"
   },
+  "done": 6,
+  "total": 6,
   "place": "Raebareli, Uttar Pradesh",
   "when": "Thu 08 Oct, 6:10 AM–6:50 AM",
   "minutes": 40,
-  "lat": 26.2087,
-  "lon": 81.2186,
-  "created": "2026-10-07T14:43"
+  "lat": 26.2086769,
+  "lon": 81.2186298,
+  "created": "2026-10-07T14:50"
  },
  "ctx": {
   "place": "Raebareli, Uttar Pradesh",
-  "lat": 26.2087,
-  "lon": 81.2186,
+  "lat": 26.2086769,
+  "lon": 81.2186298,
   "minutes": 40,
   "when": "Thu 08 Oct, 6:10 AM–6:50 AM",
   "window_note": "sunrise ke baad pehla ghanta — chidiyan sabse active (mausam service abhi busy — baarish/AQI check nahi ho paya)",
@@ -142,12 +148,12 @@
     "records": 121
    },
    {
-    "name": "Bheetha Near Jagdishpur-26.13, 81.438",
+    "name": "Bheetha near Jagdishpur",
     "km": 23.6,
     "records": 71
    },
    {
-    "name": "Unnamed Road, Chak Rar, Uttar Pradesh, IN (26.18, 81.364)",
+    "name": "Chak Rar",
     "km": 14.9,
     "records": 25
    },
@@ -915,7 +921,7 @@
     }
    }
   ],
-  "created": "2026-10-07T14:43"
+  "created": "2026-10-07T14:50"
  },
  "diary": []
 }
