@@ -19,7 +19,11 @@ Hindi names come from a hand-curated list of folk names used in the Gangetic pla
 
 ## Screenshots
 
-*(added after the first field test — see `docs/screenshots/`)*
+| Home | Card (Raebareli, Oct 2026) | Bahar — tick what you saw |
+|---|---|---|
+| ![home](docs/screenshots/1-home.png) | ![card](docs/screenshots/2-card.png) | ![field](docs/screenshots/3-bahar.png) |
+
+Taken on the live Render deployment with `scripts/take_screenshots.py` (Playwright, 412×915). Field-test photos and the diary screenshot are in the write-up.
 
 ## Why open?
 
