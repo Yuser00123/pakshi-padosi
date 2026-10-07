@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import json
 import math
+import re
 import os
 import time
 from collections import Counter, defaultdict
@@ -217,6 +218,23 @@ def classify(quarters: Dict[str, int], season_records: int) -> str:
     return "resident"
 
 
+_COORDS_RE = re.compile(r"[\(\[]?\s*-?\d{1,2}\.\d+\s*,\s*-?\d{1,3}\.\d+\s*[\)\]]?")
+_DROP_PARTS = {"in", "india", "uttar pradesh", "up", "unnamed road", "unnamed rd", "general area", "area"}
+
+
+def clean_locality(name: Optional[str]) -> Optional[str]:
+    """eBird/iNat locality strings → something a person would say ("Bheetha Near Jagdishpur-26.13, 81.438" → "Bheetha near Jagdishpur")."""
+    if not name:
+        return None
+    s = _COORDS_RE.sub(" ", name)
+    parts = [p.strip(" -–—_.") for p in re.split(r"[,;/]|--", s)]
+    parts = [p for p in parts if p and p.lower() not in _DROP_PARTS and not re.fullmatch(r"[\d\s.\-]+", p)]
+    parts = [p for i, p in enumerate(parts) if p.lower() not in {q.lower() for q in parts[:i]}]  # dedupe
+    out = ", ".join(parts[:2]).strip()
+    out = re.sub(r"\s+", " ", out).replace(" Near ", " near ")
+    return out[:48] or None
+
+
 def _hotspots(lat: float, lon: float, radius_km: int, months: List[Tuple[int, int]], n_fetch: int = 300) -> List[Hotspot]:
     """Cluster recent seasonal records on a ~2 km grid → where people actually see birds here."""
     params: list = [
@@ -239,7 +257,7 @@ def _hotspots(lat: float, lon: float, radius_km: int, months: List[Tuple[int, in
         lo = sum(o["decimalLongitude"] for o in occs) / len(occs)
         names = Counter((o.get("locality") or o.get("verbatimLocality") or "").strip() for o in occs)
         names.pop("", None)
-        spots.append(Hotspot(round(la, 4), round(lo, 4), len(occs), names.most_common(1)[0][0] if names else None,
+        spots.append(Hotspot(round(la, 4), round(lo, 4), len(occs), clean_locality(names.most_common(1)[0][0]) if names else None,
                              round(km_between(lat, lon, la, lo), 1)))
     return spots
 

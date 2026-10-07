@@ -278,8 +278,11 @@ def _mock_text(messages: List[Message], json_mode: bool) -> str:
 
 
 # ----------------------------------------------------------------------------- public API
-def chat(messages: List[Message], json_mode: bool = False, temperature: float | None = None, max_tokens: int | None = None, strip: bool = True) -> str:
-    """Return the full assistant reply (thinking removed). Retries on rate limits and transient 5xx."""
+def chat(messages: List[Message], json_mode: bool = False, temperature: float | None = None, max_tokens: int | None = None, strip: bool = True,
+         budget: float | None = None) -> str:
+    """Return the full assistant reply (thinking removed). Retries on rate limits and transient 5xx.
+
+    `budget` (seconds): no new attempt starts once this much time has passed — keeps one unlucky call from stalling a page."""
     temperature = TEMPERATURE if temperature is None else temperature
     max_tokens = MAX_TOKENS if max_tokens is None else max_tokens
     if PROVIDER == "mock":
@@ -290,7 +293,11 @@ def chat(messages: List[Message], json_mode: bool = False, temperature: float | 
 
     delays = (0, 4, 10)  # seconds between attempts
     last_err: Exception | None = None
+    started = time.time()
     for attempt, delay in enumerate(delays, 1):
+        if budget is not None and attempt > 1 and time.time() - started + delay > budget:
+            _log(f"chat budget {budget:.0f}s spent after {attempt - 1} attempt(s); giving up")
+            break
         if delay:
             time.sleep(delay)
         t0 = time.time()

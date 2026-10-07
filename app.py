@@ -109,6 +109,8 @@ def data_table(ctx: Dict) -> str:
 
 # ----------------------------------------------------------------------------- Gemma → card
 _DESC_CACHE: Dict[tuple, tuple] = {}  # (english, status, style) → (timestamp, description dict)
+BIRD_BUDGET_S = float(os.getenv("BIRD_BUDGET_S", "70"))   # per-bird: no new retry after this
+CARD_BUDGET_S = float(os.getenv("CARD_BUDGET_S", "90"))   # whole card: show what we have after this
 DESC_TTL = 24 * 3600
 T = {  # templated lines, so the model only ever writes about birds
     "Hinglish": {
@@ -143,7 +145,7 @@ def _describe(bird: Dict, ctx: Dict, style: str) -> Dict:
     hit = _DESC_CACHE.get(key)
     if hit and time.time() - hit[0] < DESC_TTL:
         return hit[1]
-    raw = llm.chat(P.bird_prompt(ctx, bird, style), json_mode=True, max_tokens=2500)
+    raw = llm.chat(P.bird_prompt(ctx, bird, style), json_mode=True, max_tokens=2500, budget=BIRD_BUDGET_S)
     d = llm.parse_json(raw)
     look = d.get("look") if isinstance(d.get("look"), list) else [str(d.get("look") or "")]
     desc = {
@@ -157,44 +159,70 @@ def _describe(bird: Dict, ctx: Dict, style: str) -> Dict:
     return desc
 
 
-def generate_card(ctx: Dict, style: str, progress=None) -> Dict:
-    """Six parallel one-bird calls; the header lines are templates filled from the data."""
-    from concurrent.futures import ThreadPoolExecutor
-
-    wanted = ctx["easy"] + ctx["visitors"]
-    results: Dict[str, Dict] = {}
-    errors: Dict[str, str] = {}
-    with ThreadPoolExecutor(len(wanted)) as ex:
-        futs = {ex.submit(_describe, b, ctx, style): b for b in wanted}
-        for fut, b in futs.items():
-            try:
-                results[b["en"]] = fut.result()
-            except Exception as err:  # noqa: BLE001
-                errors[b["en"]] = str(err)[:120]
-            if progress:
-                progress(len(results) + len(errors))
+def _assemble(ctx: Dict, style: str, wanted: List[Dict], results: Dict[str, Dict], errors: Dict[str, str]) -> Dict:
+    """Data + whatever Gemma has written so far → card dict (birds not yet written are marked pending)."""
     t = T.get(style, T["Hinglish"])
     birds_out = []
     for b in wanted:
-        d = results.get(b["en"]) or {"size": "", "look": [], "where": "", "sound": "pakka nahi", "status_line": "", "hook": t["fail"], "tip": ""}
+        done = b["en"] in results or b["en"] in errors
+        d = results.get(b["en"]) or {"size": "", "look": [], "where": "", "sound": "pakka nahi", "status_line": "",
+                                     "hook": t["fail"] if done else "", "tip": ""}
         birds_out.append({
             "en": b["en"], "hi": b["hi"], "status": b["status"], "tag": "padosi" if b["status"] == "resident" else "mehmaan",
             **{k: d[k] for k in ("size", "look", "where", "sound", "hook", "tip")},
-            "status_line": d["status_line"] or STATUS_HI[b["status"]],
+            "status_line": d["status_line"] or STATUS_HI[b["status"]], "pending": not done,
             "season_records": b["season_records"], "local_records": b["local_records"],
         })
     n_v = sum(1 for b in wanted if b["status"] != "resident")
     opening = t["opening" if ctx["visitors"] and any(b["status"] == "winter_visitor" for b in ctx["visitors"]) else "opening_nov"].format(
         place=ctx["place"].split(",")[0], radius=ctx["radius_km"], n=ctx["n_species"], v=n_v, e=len(wanted) - n_v)
-    spots = ", ".join(f"{h['name']} ({h['km']} km)" for h in ctx["hotspots"][:3]) or "paas ka talaab ya nadi"
+    spots = ", ".join(f"{h['name']} ({h['km']} km)" for h in sorted(ctx["hotspots"][:3], key=lambda h: h["km"])) or "paas ka talaab ya nadi"
     hard = min((b for b in birds_out if b["tag"] == "mehmaan"), key=lambda b: (b["local_records"], b["season_records"]), default=birds_out[-1])
     return {
         "opening": opening, "birds": birds_out,
         "where_to_go": t["where"].format(spots=spots), "go_line": t["go"].format(minutes=ctx["minutes"]),
         "hard_one": t["hard"].format(name=hard["hi"], tip=hard["tip"]) if hard.get("tip") else "",
-        "errors": errors, "place": ctx["place"], "when": ctx["when"], "minutes": ctx["minutes"],
+        "errors": errors, "done": len(results) + len(errors), "total": len(wanted),
+        "place": ctx["place"], "when": ctx["when"], "minutes": ctx["minutes"],
         "lat": ctx["lat"], "lon": ctx["lon"], "created": ctx["created"],
     }
+
+
+def iter_card(ctx: Dict, style: str):
+    """Six parallel one-bird Gemma calls. Yields the card after every finished bird, so the page fills in progressively;
+    birds still missing after CARD_BUDGET_S are marked as not described (their call keeps running and warms the cache)."""
+    from concurrent.futures import ThreadPoolExecutor, as_completed, TimeoutError as FutTimeout
+
+    wanted = ctx["easy"] + ctx["visitors"]
+    results: Dict[str, Dict] = {}
+    errors: Dict[str, str] = {}
+    yield _assemble(ctx, style, wanted, results, errors)
+    ex = ThreadPoolExecutor(len(wanted))
+    futs = {ex.submit(_describe, b, ctx, style): b for b in wanted}
+    try:
+        for fut in as_completed(futs, timeout=CARD_BUDGET_S):
+            b = futs[fut]
+            try:
+                results[b["en"]] = fut.result()
+            except Exception as err:  # noqa: BLE001
+                errors[b["en"]] = str(err)[:120]
+            yield _assemble(ctx, style, wanted, results, errors)
+    except FutTimeout:
+        for fut, b in futs.items():
+            if not fut.done():
+                errors[b["en"]] = f"time out after {CARD_BUDGET_S}s"
+        yield _assemble(ctx, style, wanted, results, errors)
+    finally:
+        ex.shutdown(wait=False, cancel_futures=True)
+
+
+def generate_card(ctx: Dict, style: str, progress=None) -> Dict:
+    """Blocking convenience wrapper around iter_card (tests, scripts)."""
+    card = None
+    for card in iter_card(ctx, style):
+        if progress:
+            progress(card["done"])
+    return card
 
 
 def _validate_card(raw: str, ctx: Dict) -> Dict:
@@ -227,6 +255,9 @@ def render_card(card: Dict, ctx: Dict) -> str:
     for i, b in enumerate(card["birds"], 1):
         L.append(f"### {i}. {b['hi']} {TAG[b['status']]}")
         bits = []
+        if b.get("pending"):
+            L += [f"<small>{b['status_line']} · {b['season_records']} records</small>  \n⏳ *Gemma likh raha hai…*", ""]
+            continue
         if b["size"]:
             bits.append(f"**Size:** {b['size']}")
         for mark in b["look"]:
@@ -247,27 +278,6 @@ def render_card(card: Dict, ctx: Dict) -> str:
     return "\n".join(L)
 
 
-def _poll(fn, label: str, prefix: str):
-    """Run fn in a thread; yield prefix + a live timer until it finishes (Gemma thinks for 20–60 s)."""
-    box: Dict = {}
-
-    def work():
-        try:
-            box["ok"] = fn()
-        except Exception as err:  # noqa: BLE001
-            box["err"] = err
-
-    t = threading.Thread(target=work, daemon=True)
-    t.start()
-    t0 = time.time()
-    while t.is_alive():
-        t.join(1.0)
-        yield None, prefix + f"\n\n🤔 *{label}… {int(time.time() - t0)}s* — tab tak upar ka data padho."
-    if "err" in box:
-        raise box["err"]
-    yield box["ok"], None
-
-
 def do_card(place_text, minutes, when, style, store):
     """Generator: data instantly, then Gemma's card. Outputs: card_md, checklist, store."""
     store = dict(store or {})
@@ -282,26 +292,36 @@ def do_card(place_text, minutes, when, style, store):
         return
 
     table = data_table(ctx)
-    head = f"## 🪶 {ctx['place']} · {ctx['when']}\n\n{table}"
-    done = {"n": 0}
-    card = None
-    try:
-        for result, status in _poll(lambda: generate_card(ctx, style, progress=lambda n: done.update(n=n)), "Gemma likh raha hai", head):
-            if status:
-                yield status.replace("Gemma likh raha hai", f"Gemma {done['n']}/{N_BIRDS} pakshi likh chuka"), checklist, store
-            else:
-                card = result
-    except llm.LLMError as err:
-        yield head + f"\n\n⚠️ {err}", checklist, store
-        return
-    except Exception as err:  # noqa: BLE001
-        yield head + f"\n\n⚠️ Card nahi ban paya: {str(err)[:200]}", checklist, store
+    details = "\n\n<details><summary>📊 Data (kahan se aaya)</summary>\n\n" + table + "\n\n</details>"
+    box: Dict = {"card": None, "err": None}
+
+    def work():
+        try:
+            for c in iter_card(ctx, style):
+                box["card"] = c
+        except Exception as err:  # noqa: BLE001
+            box["err"] = err
+
+    t = threading.Thread(target=work, daemon=True)
+    t.start()
+    t0 = time.time()
+    while t.is_alive():
+        t.join(1.0)
+        card = box["card"]
+        if card:
+            yield (render_card(card, ctx) + f"\n\n🤔 *Gemma {card['done']}/{card['total']} pakshi likh chuka… {int(time.time() - t0)}s* — "
+                   "jo aa gaye unhe padhna shuru karo." + details), checklist, store
+        else:
+            yield f"## 🪶 {ctx['place']} · {ctx['when']}\n\n{table}\n\n🤔 *Gemma likh raha hai… {int(time.time() - t0)}s*", checklist, store
+    card = box["card"]
+    if box["err"] or not card:
+        err = box["err"] or RuntimeError("card nahi bana")
+        yield f"## 🪶 {ctx['place']} · {ctx['when']}\n\n{table}\n\n⚠️ " + (str(err) if isinstance(err, llm.LLMError) else f"Card nahi ban paya: {str(err)[:200]}"), checklist, store
         return
 
     store["card"], store["ctx"] = card, ctx
     choices = [b["hi"] for b in card["birds"]]
-    yield render_card(card, ctx) + "\n\n<details><summary>📊 Data (kahan se aaya)</summary>\n\n" + table + "\n\n</details>", \
-        gr.CheckboxGroup(choices=choices, value=[]), store
+    yield render_card(card, ctx) + details, gr.CheckboxGroup(choices=choices, value=[]), store
 
 
 # ----------------------------------------------------------------------------- diary
