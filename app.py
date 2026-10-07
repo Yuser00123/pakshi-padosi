@@ -38,6 +38,7 @@ import sky  # noqa: E402
 
 llm.MOCK_HANDLER = P.mock_reply
 TOWN_DEFAULT = os.getenv("TOWN_DEFAULT", "Raebareli")
+TOWN_COORDS = places.parse_coords(os.getenv("TOWN_COORDS", ""))  # e.g. "26.2087, 81.2186" — default town needs no geocoder
 REPO_URL = os.getenv("REPO_URL", "https://github.com/Yuser00123/pakshi-padosi")
 STARTED = time.time()
 N_BIRDS = 6
@@ -53,6 +54,8 @@ def resolve_place(text: str) -> places.Place:
     coords = places.parse_coords(text)
     if coords:
         return places.reverse(*coords)
+    if TOWN_COORDS and text.lower() == TOWN_DEFAULT.lower():
+        return places.Place(TOWN_COORDS[0], TOWN_COORDS[1], TOWN_DEFAULT, TOWN_DEFAULT)
     place = places.geocode(text)
     if not place:
         raise ValueError(f"'{text}' map par nahi mila. Sheher ka naam ya '26.21, 81.22' jaise coordinates likho.")

@@ -20,6 +20,8 @@ services:
         sync: false
       - key: TOWN_DEFAULT
         value: Raebareli
+      - key: TOWN_COORDS
+        value: "26.2087, 81.2186"
       - key: REPO_URL
         value: https://github.com/Yuser00123/pakshi-padosi
       - key: GRADIO_ANALYTICS_ENABLED
