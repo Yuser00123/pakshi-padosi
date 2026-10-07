@@ -62,6 +62,71 @@ def _aqi_word(aqi: Optional[int]) -> str:
     return f"bahut smog (AQI {aqi}) — aaj khidki se hi dekho"
 
 
+def _log(msg: str) -> None:
+    print(f"[sky] {msg}", flush=True)
+
+
+def _fetch(url: str, params: dict) -> dict:
+    """GET → JSON, raising a readable error when Open-Meteo refuses (shared-IP rate limits happen on free hosts)."""
+    r = requests.get(url, headers=UA, timeout=20, params=params)
+    try:
+        data = r.json()
+    except ValueError:
+        raise RuntimeError(f"HTTP {r.status_code}: {r.text[:120]}")
+    if not r.ok or data.get("error"):
+        raise RuntimeError(f"HTTP {r.status_code}: {data.get('reason') or r.text[:120]}")
+    return data
+
+
+def sun_times(lat: float, lon: float, day: datetime, tz_offset_h: float = 5.5) -> tuple:
+    """Sunrise/sunset for a date, NOAA algorithm (±2 min). Works offline; used when Open-Meteo is unavailable."""
+    import math
+
+    n = day.timetuple().tm_yday
+    lng_hour = lon / 15.0
+
+    def calc(rising: bool) -> Optional[datetime]:
+        t = n + ((6 if rising else 18) - lng_hour) / 24.0
+        m = 0.9856 * t - 3.289
+        L = (m + 1.916 * math.sin(math.radians(m)) + 0.020 * math.sin(math.radians(2 * m)) + 282.634) % 360
+        ra = math.degrees(math.atan(0.91764 * math.tan(math.radians(L)))) % 360
+        ra += (math.floor(L / 90) * 90 - math.floor(ra / 90) * 90)
+        ra /= 15.0
+        sin_dec = 0.39782 * math.sin(math.radians(L))
+        cos_dec = math.cos(math.asin(sin_dec))
+        cos_h = (math.cos(math.radians(90.833)) - sin_dec * math.sin(math.radians(lat))) / (cos_dec * math.cos(math.radians(lat)))
+        if cos_h > 1 or cos_h < -1:
+            return None
+        h = (360 - math.degrees(math.acos(cos_h))) if rising else math.degrees(math.acos(cos_h))
+        h /= 15.0
+        T = h + ra - 0.06571 * t - 6.622
+        ut = (T - lng_hour) % 24
+        local = (ut + tz_offset_h) % 24
+        return day.replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(hours=local)
+
+    return calc(True), calc(False)
+
+
+def _offline_sky(lat: float, lon: float, now: datetime, when: str, minutes: int, reason: str) -> Sky:
+    windows: List[Window] = []
+    for i in range(3):
+        day = now + timedelta(days=i)
+        sunrise, sunset = sun_times(lat, lon, day)
+        if not sunrise or not sunset:
+            continue
+        for label, start in (("subah", sunrise + timedelta(minutes=10)), ("shaam", sunset - timedelta(minutes=minutes + 15))):
+            end = start + timedelta(minutes=minutes)
+            if end <= now + timedelta(minutes=20) or (when == "kal" and start.date() <= now.date()):
+                continue
+            note = ("sunrise ke baad pehla ghanta — chidiyan sabse active" if label == "subah" else "sunset se pehle — paani par bheed lagti hai")
+            windows.append(Window(start, end, label, 0, 0.0, None, note + " (mausam service abhi busy — baarish/AQI check nahi ho paya)"))
+    windows.sort(key=lambda w: (w.start.date(), w.label != "subah"))
+    sr, ss = sun_times(lat, lon, windows[0].start if windows else now)
+    _log(f"Open-Meteo unavailable ({reason}); using local sun times")
+    return Sky(sunrise=sr or now, sunset=ss or now, day_label=(windows[0].start if windows else now).strftime("%a %d %b"),
+               rain_day_pct=0, tmax=0.0, tmin=0.0, aqi_now=None, windows=windows[:4])
+
+
 def forecast(lat: float, lon: float, when: str = "abhi", minutes: int = 40) -> Sky:
     """`when` = "abhi" (next good window from now) or "kal" (tomorrow morning)."""
     now = datetime.now()  # the server runs in UTC on Render; we only compare against local forecast times below
@@ -72,19 +137,21 @@ def forecast(lat: float, lon: float, when: str = "abhi", minutes: int = 40) -> S
     except Exception:  # noqa: BLE001
         pass
 
-    fc = requests.get(FORECAST, headers=UA, timeout=20, params=dict(
-        latitude=lat, longitude=lon, timezone=TZ, forecast_days=3,
-        daily="sunrise,sunset,temperature_2m_max,temperature_2m_min,precipitation_probability_max",
-        hourly="temperature_2m,precipitation_probability")).json()
+    try:
+        fc = _fetch(FORECAST, dict(
+            latitude=lat, longitude=lon, timezone=TZ, forecast_days=3,
+            daily="sunrise,sunset,temperature_2m_max,temperature_2m_min,precipitation_probability_max",
+            hourly="temperature_2m,precipitation_probability"))
+    except Exception as err:  # noqa: BLE001 — never block the card on weather
+        return _offline_sky(lat, lon, now, when, minutes, str(err)[:160])
     aqi_hourly: dict = {}
     aqi_now = None
     try:
-        aq = requests.get(AIR, headers=UA, timeout=20, params=dict(
-            latitude=lat, longitude=lon, timezone=TZ, forecast_days=3, hourly="us_aqi")).json()
+        aq = _fetch(AIR, dict(latitude=lat, longitude=lon, timezone=TZ, forecast_days=3, hourly="us_aqi"))
         aqi_hourly = dict(zip(aq["hourly"]["time"], aq["hourly"]["us_aqi"]))
         aqi_now = next((v for t, v in aqi_hourly.items() if datetime.fromisoformat(t) >= now.replace(minute=0)), None)
-    except Exception:  # noqa: BLE001
-        pass
+    except Exception as err:  # noqa: BLE001
+        _log(f"air-quality unavailable: {str(err)[:120]}")
 
     hourly_t = dict(zip(fc["hourly"]["time"], fc["hourly"]["temperature_2m"]))
     hourly_p = dict(zip(fc["hourly"]["time"], fc["hourly"]["precipitation_probability"]))
